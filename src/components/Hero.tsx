@@ -9,8 +9,8 @@ const Hero = () => {
           <span className="inline-block px-4 py-2 rounded-full bg-blue-50 text-primary text-sm font-semibold mb-8">
             Coming Soon — Join Our Waitlist
           </span>
-          <h1 className="mb-6">
-            <span className="gradient-text">Revolutionize</span> Your Freelance Finances
+          <h1 className="text-4xl md:text-6xl font-bold mb-6">
+            <span className="bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">Revolutionize</span> Your Freelance Finances
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-3xl mx-auto">
             The all-in-one financial platform for freelancers and small businesses. Powerful invoicing, time tracking, and AI-driven insights in one seamless experience.
@@ -24,24 +24,6 @@ const Hero = () => {
             </Button>
           </div>
         </div>
-
-        <div className="mt-16 md:mt-24 max-w-5xl mx-auto relative">
-          <div className="aspect-[16/9] rounded-lg overflow-hidden shadow-xl border border-gray-200">
-            <div className="w-full h-full bg-gradient-to-tr from-gray-800 to-gray-900 flex items-center justify-center">
-              <div className="text-white text-center p-8">
-                <div className="text-2xl font-bold mb-4">InvoiceFlow Dashboard Preview</div>
-                <p className="text-gray-300">Coming soon in our beta release</p>
-              </div>
-            </div>
-          </div>
-          <div className="absolute -bottom-3 -left-3 -right-3 h-12 bg-gradient-to-t from-white to-transparent z-10"></div>
-        </div>
-      </div>
-
-      {/* Background elements */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-100 rounded-full opacity-20 blur-3xl"></div>
-        <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent/30 rounded-full opacity-20 blur-3xl"></div>
       </div>
     </section>
   );

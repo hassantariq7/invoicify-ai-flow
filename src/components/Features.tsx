@@ -1,65 +1,59 @@
 
-import { 
-  FileText, 
-  Clock, 
-  Users, 
-  BarChart, 
-  FileCheck 
-} from "lucide-react";
-
-const featuresList = [
-  {
-    icon: <FileText className="h-8 w-8 text-primary" />,
-    title: "Invoicing System",
-    description: "Create dynamic invoices with custom templates, multi-currency support, and crypto payment options. Set up recurring invoices with blockchain-powered smart contracts.",
-    color: "bg-blue-50"
-  },
-  {
-    icon: <Clock className="h-8 w-8 text-secondary" />,
-    title: "Time Tracking & Expenses",
-    description: "Track time and expenses effortlessly, categorize by project, and automatically generate invoices based on tracked hours and logged expenses.",
-    color: "bg-green-50"
-  },
-  {
-    icon: <Users className="h-8 w-8 text-accent" />,
-    title: "Client & Project Management",
-    description: "Manage clients and projects in one place with detailed records, payment history, and a dedicated client portal for seamless collaboration.",
-    color: "bg-violet-50"
-  },
-  {
-    icon: <BarChart className="h-8 w-8 text-primary" />,
-    title: "AI-Powered Analytics",
-    description: "Leverage AI for cash flow forecasting, profitability insights, and smart reminders tailored to client behavior patterns.",
-    color: "bg-blue-50"
-  },
-  {
-    icon: <FileCheck className="h-8 w-8 text-secondary" />,
-    title: "Tax & Compliance",
-    description: "Automate tax calculations based on location, generate tax reports with one click, and ensure GDPR compliance with data privacy tools.",
-    color: "bg-green-50"
-  }
-];
+import { Clock, DollarSign, Users, BarChart3, Shield, Zap } from "lucide-react";
 
 const Features = () => {
+  const features = [
+    {
+      icon: DollarSign,
+      title: "Smart Invoicing",
+      description: "Create, edit, and manage dynamic invoices with crypto payment options and smart contracts for recurring billing."
+    },
+    {
+      icon: Clock,
+      title: "Time & Expense Tracking",
+      description: "Simple time-tracking linked to projects with automated expense categorization and profit margin calculations."
+    },
+    {
+      icon: Users,
+      title: "Client Management",
+      description: "Comprehensive client records with project management and dedicated client portals for seamless collaboration."
+    },
+    {
+      icon: BarChart3,
+      title: "AI-Powered Analytics",
+      description: "Cash flow forecasts, profitability insights, and smart payment term recommendations powered by AI."
+    },
+    {
+      icon: Shield,
+      title: "Tax & Compliance",
+      description: "Automatic tax calculations, one-click reports, and GDPR/CCPA-compliant data privacy tools."
+    },
+    {
+      icon: Zap,
+      title: "Automation",
+      description: "Smart reminders, automated categorization, and AI-driven workflow optimization to save time."
+    }
+  ];
+
   return (
-    <section id="features" className="section-padding bg-gray-50">
+    <section id="features" className="py-20 bg-gray-50">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-3xl font-bold mb-4">Powerful Features for Modern Businesses</h2>
-          <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-            Our comprehensive suite of tools gives you everything you need to manage your finances, clients, and projects in one place.
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">
+            Everything You Need to Scale Your Business
+          </h2>
+          <p className="text-lg text-gray-600">
+            Powerful features designed specifically for freelancers and small businesses
           </p>
         </div>
-
-        <div className="card-grid">
-          {featuresList.map((feature, index) => (
-            <div
-              key={index}
-              className={`${feature.color} feature-card animate-fade-in`}
-              style={{ animationDelay: `${index * 100}ms` }}
-            >
-              <div className="mb-4">{feature.icon}</div>
-              <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {features.map((feature, index) => (
+            <div key={index} className="bg-white p-6 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+              <div className="bg-primary/10 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+                <feature.icon className="h-6 w-6 text-primary" />
+              </div>
+              <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
               <p className="text-gray-600">{feature.description}</p>
             </div>
           ))}

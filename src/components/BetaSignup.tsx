@@ -1,8 +1,13 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { submitBetaApplication } from "@/lib/database";
 import { useToast } from "@/hooks/use-toast";
+import { CheckCircle } from "lucide-react";
 
 const BetaSignup = () => {
   const [formData, setFormData] = useState({
@@ -16,15 +21,14 @@ const BetaSignup = () => {
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    
+
     try {
       const { error } = await submitBetaApplication(formData);
       
@@ -36,6 +40,7 @@ const BetaSignup = () => {
         });
       } else {
         setSubmitted(true);
+        setFormData({ name: "", email: "", company: "", role: "", reason: "" });
         toast({
           title: "Application submitted!",
           description: "We'll review your application and get back to you soon."
@@ -53,113 +58,104 @@ const BetaSignup = () => {
   };
 
   return (
-    <section id="beta" className="section-padding bg-gray-50">
+    <section id="beta" className="py-20 bg-gradient-to-b from-primary/5 to-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto">
+        <div className="max-w-2xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold mb-4">Apply for Beta Access</h2>
+            <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              Apply for Beta Access
+            </h2>
             <p className="text-lg text-gray-600">
-              We're looking for passionate early adopters to help shape the future of InvoiceFlow. Apply below to become a beta tester.
+              Get early access to InvoiceFlow and help shape the future of freelance financial management.
             </p>
           </div>
 
           {!submitted ? (
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name *</label>
-                    <input
-                      type="text"
-                      id="name"
-                      name="name"
-                      value={formData.name}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address *</label>
-                    <input
-                      type="email"
-                      id="email"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">Company / Business Name</label>
-                    <input
-                      type="text"
-                      id="company"
-                      name="company"
-                      value={formData.company}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="role" className="block text-sm font-medium text-gray-700 mb-1">Your Role *</label>
-                    <select
-                      id="role"
-                      name="role"
-                      value={formData.role}
-                      onChange={handleChange}
-                      className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
-                      required
-                    >
-                      <option value="">Select your role</option>
-                      <option value="freelancer">Freelancer</option>
-                      <option value="small-business-owner">Small Business Owner</option>
-                      <option value="accounting">Accounting / Finance</option>
-                      <option value="consultant">Consultant</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
+            <form onSubmit={handleSubmit} className="space-y-6 bg-white p-8 rounded-lg shadow-lg">
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="name">Full Name *</Label>
+                  <Input
+                    id="name"
+                    value={formData.name}
+                    onChange={(e) => handleInputChange("name", e.target.value)}
+                    required
+                  />
                 </div>
                 <div>
-                  <label htmlFor="reason" className="block text-sm font-medium text-gray-700 mb-1">Why do you want to join our beta? *</label>
-                  <textarea
-                    id="reason"
-                    name="reason"
-                    rows={4}
-                    value={formData.reason}
-                    onChange={handleChange}
-                    className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-primary focus:border-primary"
+                  <Label htmlFor="email">Email Address *</Label>
+                  <Input
+                    id="email"
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => handleInputChange("email", e.target.value)}
                     required
-                  ></textarea>
+                  />
                 </div>
-                <div className="text-center">
-                  <Button 
-                    type="submit" 
-                    className="bg-primary hover:bg-primary/90 px-8 py-3 w-full sm:w-auto"
-                    disabled={loading}
-                  >
-                    {loading ? "Submitting Application..." : "Submit Application"}
-                  </Button>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6">
+                <div>
+                  <Label htmlFor="company">Company/Organization</Label>
+                  <Input
+                    id="company"
+                    value={formData.company}
+                    onChange={(e) => handleInputChange("company", e.target.value)}
+                  />
                 </div>
-              </form>
-            </div>
+                <div>
+                  <Label htmlFor="role">Your Role *</Label>
+                  <Select onValueChange={(value) => handleInputChange("role", value)} required>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select your role" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="freelancer">Freelancer</SelectItem>
+                      <SelectItem value="small-business-owner">Small Business Owner</SelectItem>
+                      <SelectItem value="consultant">Consultant</SelectItem>
+                      <SelectItem value="agency-owner">Agency Owner</SelectItem>
+                      <SelectItem value="other">Other</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+              </div>
+
+              <div>
+                <Label htmlFor="reason">Why do you want to join our beta? *</Label>
+                <Textarea
+                  id="reason"
+                  value={formData.reason}
+                  onChange={(e) => handleInputChange("reason", e.target.value)}
+                  placeholder="Tell us about your current challenges with invoicing and financial management..."
+                  required
+                  rows={4}
+                />
+              </div>
+
+              <Button 
+                type="submit" 
+                className="w-full bg-primary hover:bg-primary/90 py-6 text-lg"
+                disabled={loading}
+              >
+                {loading ? "Submitting..." : "Submit Beta Application"}
+              </Button>
+            </form>
           ) : (
-            <div className="bg-white rounded-lg shadow-lg p-8 text-center animate-fade-in">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-                <svg className="h-8 w-8 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                </svg>
+            <div className="bg-green-50 border border-green-100 rounded-lg p-8 text-center">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-green-100 rounded-full mb-6">
+                <CheckCircle className="h-8 w-8 text-secondary" />
               </div>
-              <h3 className="text-2xl font-bold mb-3">Application Received!</h3>
+              <h3 className="text-2xl font-bold mb-4">Application Submitted!</h3>
               <p className="text-gray-600 mb-6">
-                Thank you for applying to join our beta program. We're reviewing applications and will be in touch soon if you're selected.
+                Thank you for your interest in InvoiceFlow. We'll review your application and get back to you within 48 hours.
               </p>
-              <div className="border-t border-gray-100 pt-6">
-                <p className="text-sm text-gray-500">
-                  If you have any questions about your application, please contact us at <span className="text-primary">beta@invoiceflow.com</span>
-                </p>
-              </div>
+              <Button 
+                onClick={() => setSubmitted(false)}
+                variant="outline"
+                className="border-primary text-primary hover:bg-primary/5"
+              >
+                Submit Another Application
+              </Button>
             </div>
           )}
         </div>
