@@ -2,22 +2,59 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail, Check } from "lucide-react";
+import { addToWaitlist, checkWaitlistStatus } from "@/lib/database";
+import { useToast } from "@/hooks/use-toast";
 
 const WaitlistForm = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      // Check if email already exists
+      const { exists } = await checkWaitlistStatus(email);
+      
+      if (exists) {
+        toast({
+          title: "Already subscribed",
+          description: "This email is already on our waitlist!",
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
+      }
+
+      // Add to waitlist
+      const { error } = await addToWaitlist(email);
+      
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to join waitlist. Please try again.",
+          variant: "destructive"
+        });
+      } else {
+        setSubmitted(true);
+        setEmail("");
+        toast({
+          title: "Welcome to our waitlist!",
+          description: "Check your email for a confirmation message."
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
       setLoading(false);
-      setSubmitted(true);
-      setEmail("");
-    }, 800);
+    }
   };
 
   return (
@@ -47,7 +84,7 @@ const WaitlistForm = () => {
                 className="bg-primary hover:bg-primary/90 py-3"
                 disabled={loading}
               >
-                {loading ? "Submitting..." : "Join Waitlist"}
+                {loading ? "Joining..." : "Join Waitlist"}
               </Button>
             </form>
           ) : (

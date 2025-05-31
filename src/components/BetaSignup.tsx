@@ -1,6 +1,8 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
+import { submitBetaApplication } from "@/lib/database";
+import { useToast } from "@/hooks/use-toast";
 
 const BetaSignup = () => {
   const [formData, setFormData] = useState({
@@ -12,21 +14,42 @@ const BetaSignup = () => {
   });
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate API call
-    setTimeout(() => {
+    try {
+      const { error } = await submitBetaApplication(formData);
+      
+      if (error) {
+        toast({
+          title: "Error",
+          description: "Failed to submit application. Please try again.",
+          variant: "destructive"
+        });
+      } else {
+        setSubmitted(true);
+        toast({
+          title: "Application submitted!",
+          description: "We'll review your application and get back to you soon."
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive"
+      });
+    } finally {
       setLoading(false);
-      setSubmitted(true);
-    }, 800);
+    }
   };
 
   return (
