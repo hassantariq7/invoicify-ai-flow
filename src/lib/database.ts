@@ -1,24 +1,14 @@
 
-import { supabase, isSupabaseConfigured } from './supabase'
+import { supabase } from '@/integrations/supabase/client'
 import { WaitlistEntry, BetaApplication } from './supabase'
 
 export const addToWaitlist = async (email: string): Promise<{ error: any }> => {
-  if (!isSupabaseConfigured()) {
-    console.log('Demo mode: Would add to waitlist:', email)
-    return { error: null }
-  }
-
   try {
     const { error } = await supabase
       .from('waitlist')
       .insert({ email, notified: false })
     
     if (error) throw error
-
-    // Send welcome email via Edge Function
-    await supabase.functions.invoke('send-waitlist-email', {
-      body: { email }
-    })
 
     return { error: null }
   } catch (error) {
@@ -28,11 +18,6 @@ export const addToWaitlist = async (email: string): Promise<{ error: any }> => {
 }
 
 export const submitBetaApplication = async (applicationData: Omit<BetaApplication, 'id' | 'created_at' | 'status' | 'user_id'>): Promise<{ error: any }> => {
-  if (!isSupabaseConfigured()) {
-    console.log('Demo mode: Would submit beta application:', applicationData)
-    return { error: null }
-  }
-
   try {
     const { error } = await supabase
       .from('beta_applications')
@@ -43,11 +28,6 @@ export const submitBetaApplication = async (applicationData: Omit<BetaApplicatio
     
     if (error) throw error
 
-    // Send application confirmation email
-    await supabase.functions.invoke('send-beta-confirmation', {
-      body: { email: applicationData.email, name: applicationData.name }
-    })
-
     return { error: null }
   } catch (error) {
     console.error('Error submitting beta application:', error)
@@ -56,16 +36,12 @@ export const submitBetaApplication = async (applicationData: Omit<BetaApplicatio
 }
 
 export const checkWaitlistStatus = async (email: string): Promise<{ exists: boolean, error: any }> => {
-  if (!isSupabaseConfigured()) {
-    return { exists: false, error: null }
-  }
-
   try {
     const { data, error } = await supabase
       .from('waitlist')
       .select('email')
       .eq('email', email)
-      .single()
+      .maybeSingle()
     
     return { exists: !!data, error }
   } catch (error) {
