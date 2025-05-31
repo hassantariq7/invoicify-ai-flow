@@ -1,8 +1,13 @@
 
-import { supabase } from './supabase'
+import { supabase, isSupabaseConfigured } from './supabase'
 import { WaitlistEntry, BetaApplication } from './supabase'
 
 export const addToWaitlist = async (email: string): Promise<{ error: any }> => {
+  if (!isSupabaseConfigured()) {
+    console.log('Demo mode: Would add to waitlist:', email)
+    return { error: null }
+  }
+
   try {
     const { error } = await supabase
       .from('waitlist')
@@ -23,6 +28,11 @@ export const addToWaitlist = async (email: string): Promise<{ error: any }> => {
 }
 
 export const submitBetaApplication = async (applicationData: Omit<BetaApplication, 'id' | 'created_at' | 'status' | 'user_id'>): Promise<{ error: any }> => {
+  if (!isSupabaseConfigured()) {
+    console.log('Demo mode: Would submit beta application:', applicationData)
+    return { error: null }
+  }
+
   try {
     const { error } = await supabase
       .from('beta_applications')
@@ -46,6 +56,10 @@ export const submitBetaApplication = async (applicationData: Omit<BetaApplicatio
 }
 
 export const checkWaitlistStatus = async (email: string): Promise<{ exists: boolean, error: any }> => {
+  if (!isSupabaseConfigured()) {
+    return { exists: false, error: null }
+  }
+
   try {
     const { data, error } = await supabase
       .from('waitlist')
