@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { submitBetaApplication } from "@/lib/database";
 import { useToast } from "@/hooks/use-toast";
 import { CheckCircle } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const BetaSignup = () => {
   const [formData, setFormData] = useState({
@@ -20,6 +21,7 @@ const BetaSignup = () => {
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
@@ -30,6 +32,18 @@ const BetaSignup = () => {
     setLoading(true);
 
     try {
+      // Verify reCAPTCHA
+      const recaptchaToken = recaptchaRef.current?.getValue();
+      if (!recaptchaToken) {
+        toast({
+          title: "Verification required",
+          description: "Please complete the reCAPTCHA verification.",
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
+      }
+
       const { error } = await submitBetaApplication(formData);
       
       if (error) {
@@ -41,6 +55,7 @@ const BetaSignup = () => {
       } else {
         setSubmitted(true);
         setFormData({ name: "", email: "", company: "", role: "", reason: "" });
+        recaptchaRef.current?.reset();
         toast({
           title: "Application submitted!",
           description: "We'll review your application and get back to you soon."
@@ -129,6 +144,13 @@ const BetaSignup = () => {
                   placeholder="Tell us about your current challenges with invoicing and financial management..."
                   required
                   rows={4}
+                />
+              </div>
+
+              <div className="flex justify-center">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test key - replace with your actual site key
                 />
               </div>
 

@@ -1,21 +1,35 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail, Check } from "lucide-react";
 import { addToWaitlist, checkWaitlistStatus } from "@/lib/database";
 import { useToast } from "@/hooks/use-toast";
+import ReCAPTCHA from "react-google-recaptcha";
 
 const WaitlistForm = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     
     try {
+      // Verify reCAPTCHA
+      const recaptchaToken = recaptchaRef.current?.getValue();
+      if (!recaptchaToken) {
+        toast({
+          title: "Verification required",
+          description: "Please complete the reCAPTCHA verification.",
+          variant: "destructive"
+        });
+        setLoading(false);
+        return;
+      }
+
       // Check if email already exists
       const { exists } = await checkWaitlistStatus(email);
       
@@ -41,6 +55,7 @@ const WaitlistForm = () => {
       } else {
         setSubmitted(true);
         setEmail("");
+        recaptchaRef.current?.reset();
         toast({
           title: "Welcome to our waitlist!",
           description: "Check your email for a confirmation message."
@@ -67,7 +82,7 @@ const WaitlistForm = () => {
           </p>
           
           {!submitted ? (
-            <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4 max-w-md mx-auto">
               <div className="relative flex-grow">
                 <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-5 w-5" />
                 <input
@@ -79,6 +94,14 @@ const WaitlistForm = () => {
                   required
                 />
               </div>
+              
+              <div className="flex justify-center">
+                <ReCAPTCHA
+                  ref={recaptchaRef}
+                  sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI" // Test key - replace with your actual site key
+                />
+              </div>
+              
               <Button 
                 type="submit" 
                 className="bg-primary hover:bg-primary/90 py-3"
