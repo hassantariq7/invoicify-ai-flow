@@ -98,7 +98,7 @@ const WaitlistForm = () => {
               <div className="flex justify-center">
                 <ReCAPTCHA
                   ref={recaptchaRef}
-                  sitekey="6LfCJFkrAAAAANy_qX9J5Cmojcfw9NjZhuY_jobF"
+                  sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhIF"
                 />
               </div>
               
