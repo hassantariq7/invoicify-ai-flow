@@ -1,5 +1,5 @@
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Mail, Check } from "lucide-react";
 import { addToWaitlist, checkWaitlistStatus } from "@/lib/database";
@@ -10,8 +10,25 @@ const WaitlistForm = () => {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [recaptchaLoaded, setRecaptchaLoaded] = useState(false);
   const { toast } = useToast();
   const recaptchaRef = useRef<ReCAPTCHA>(null);
+
+  useEffect(() => {
+    // Check if reCAPTCHA script is loaded
+    const checkRecaptchaLoaded = () => {
+      if (window.grecaptcha && window.grecaptcha.ready) {
+        window.grecaptcha.ready(() => {
+          setRecaptchaLoaded(true);
+        });
+      } else {
+        // Retry after a short delay
+        setTimeout(checkRecaptchaLoaded, 100);
+      }
+    };
+    
+    checkRecaptchaLoaded();
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -95,17 +112,21 @@ const WaitlistForm = () => {
                 />
               </div>
               
-              <div className="flex justify-center">
-                <ReCAPTCHA
-                  ref={recaptchaRef}
-                  sitekey="6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhIF"
-                />
+              <div className="flex justify-center min-h-[78px] items-center">
+                {recaptchaLoaded ? (
+                  <ReCAPTCHA
+                    ref={recaptchaRef}
+                    sitekey="6LfCJFkrAAAAANy_qX9J5Cmojcfw9NjZhuY_jobF"
+                  />
+                ) : (
+                  <div className="text-sm text-gray-500">Loading verification...</div>
+                )}
               </div>
               
               <Button 
                 type="submit" 
                 className="bg-primary hover:bg-primary/90 py-3"
-                disabled={loading}
+                disabled={loading || !recaptchaLoaded}
               >
                 {loading ? "Joining..." : "Join Waitlist"}
               </Button>
