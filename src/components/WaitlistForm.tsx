@@ -17,8 +17,8 @@ const WaitlistForm = () => {
   useEffect(() => {
     // Check if reCAPTCHA script is loaded
     const checkRecaptchaLoaded = () => {
-      if (window.grecaptcha && window.grecaptcha.ready) {
-        window.grecaptcha.ready(() => {
+      if ((window as any).grecaptcha && (window as any).grecaptcha.ready) {
+        (window as any).grecaptcha.ready(() => {
           setRecaptchaLoaded(true);
         });
       } else {
