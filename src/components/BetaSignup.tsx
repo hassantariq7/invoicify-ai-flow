@@ -25,13 +25,20 @@ const BetaSignup = () => {
   const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   useEffect(() => {
+    console.log("BetaSignup: Starting reCAPTCHA load check");
+    
     // Check if reCAPTCHA script is loaded
     const checkRecaptchaLoaded = () => {
+      console.log("BetaSignup: Checking if grecaptcha exists:", !!(window as any).grecaptcha);
+      
       if ((window as any).grecaptcha && (window as any).grecaptcha.ready) {
+        console.log("BetaSignup: grecaptcha.ready found, calling ready()");
         (window as any).grecaptcha.ready(() => {
+          console.log("BetaSignup: grecaptcha ready callback fired");
           setRecaptchaLoaded(true);
         });
       } else {
+        console.log("BetaSignup: grecaptcha not ready, retrying in 100ms");
         // Retry after a short delay
         setTimeout(checkRecaptchaLoaded, 100);
       }
@@ -169,9 +176,13 @@ const BetaSignup = () => {
                   <ReCAPTCHA
                     ref={recaptchaRef}
                     sitekey="6LfCJFkrAAAAANy_qX9J5Cmojcfw9NjZhuY_jobF"
+                    onLoad={() => console.log("BetaSignup: ReCAPTCHA component loaded")}
+                    onError={(error) => console.error("BetaSignup: ReCAPTCHA error:", error)}
                   />
                 ) : (
-                  <div className="text-sm text-gray-500">Loading verification...</div>
+                  <div className="text-sm text-gray-500">
+                    Loading verification... (Debug: recaptchaLoaded={recaptchaLoaded.toString()})
+                  </div>
                 )}
               </div>
 
