@@ -105,7 +105,7 @@ const BetaSignup = () => {
               Apply for Beta Access
             </h2>
             <p className="text-lg text-gray-600">
-              Get early access to InvoiceFlow and help shape the future of freelance financial management.
+              Get early access to Kmstack and help shape the future of freelance financial management.
             </p>
           </div>
 
@@ -175,7 +175,7 @@ const BetaSignup = () => {
                 {recaptchaLoaded ? (
                   <ReCAPTCHA
                     ref={recaptchaRef}
-                    sitekey="6LfCJFkrAAAAANy_qX9J5Cmojcfw9NjZhuY_jobF"
+                    sitekey="6Le04zArAAAAAAUH2fFupXrlI9dwL1Uv52Fsrbtm"
                     onLoad={() => console.log("BetaSignup: ReCAPTCHA component loaded")}
                     onError={(error) => console.error("BetaSignup: ReCAPTCHA error:", error)}
                   />
@@ -201,7 +201,7 @@ const BetaSignup = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Application Submitted!</h3>
               <p className="text-gray-600 mb-6">
-                Thank you for your interest in InvoiceFlow. We'll review your application and get back to you within 48 hours.
+                Thank you for your interest in Kmstack. We'll review your application and get back to you within 48 hours.
               </p>
               <Button 
                 onClick={() => setSubmitted(false)}

@@ -102,7 +102,7 @@ const WaitlistForm = () => {
         <div className="max-w-3xl mx-auto text-center">
           <h2 className="text-3xl font-bold mb-6">Join Our Waitlist</h2>
           <p className="text-lg text-gray-600 mb-8">
-            Be the first to know when InvoiceFlow launches. Join our waitlist to receive exclusive updates and early access opportunities.
+            Be the first to know when Kmstack launches. Join our waitlist to receive exclusive updates and early access opportunities.
           </p>
           
           {!submitted ? (
@@ -123,7 +123,7 @@ const WaitlistForm = () => {
                 {recaptchaLoaded ? (
                   <ReCAPTCHA
                     ref={recaptchaRef}
-                    sitekey="6LfCJFkrAAAAANy_qX9J5Cmojcfw9NjZhuY_jobF"
+                    sitekey="6Le04zArAAAAAAUH2fFupXrlI9dwL1Uv52Fsrbtm"
                     onLoad={() => console.log("WaitlistForm: ReCAPTCHA component loaded")}
                     onError={(error) => console.error("WaitlistForm: ReCAPTCHA error:", error)}
                   />

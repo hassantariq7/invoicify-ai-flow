@@ -61,7 +61,7 @@ const ProductSpecification = () => {
             Product Specifications
           </h2>
           <p className="text-lg text-gray-600">
-            Detailed breakdown of InvoiceFlow's comprehensive feature set
+            Detailed breakdown of Kmstack's comprehensive feature set
           </p>
         </div>
         

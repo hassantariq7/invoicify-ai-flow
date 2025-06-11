@@ -6,7 +6,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-4 gap-8">
           <div>
             <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
-              InvoiceFlow
+              Kmstack
             </h3>
             <p className="text-gray-400 mb-4">
               The all-in-one financial platform for freelancers and small businesses.
@@ -42,7 +42,7 @@ const Footer = () => {
         </div>
         
         <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p>&copy; 2024 InvoiceFlow. All rights reserved.</p>
+          <p>&copy; 2024 Kmstack. All rights reserved.</p>
         </div>
       </div>
     </footer>

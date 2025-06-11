@@ -22,7 +22,7 @@ const Navbar = () => {
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center">
-              <span className="text-xl font-bold gradient-text">InvoiceFlow</span>
+              <span className="text-xl font-bold gradient-text">Kmstack</span>
             </div>
 
             {/* Desktop Navigation */}
@@ -31,7 +31,7 @@ const Navbar = () => {
               <a href="#waitlist" className="text-gray-600 hover:text-primary transition-colors">Waitlist</a>
               <a href="#beta" className="text-gray-600 hover:text-primary transition-colors">Beta</a>
               
-              {user ? (
+              {/* {user ? (
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
                     <User className="h-4 w-4 text-primary" />
@@ -50,7 +50,7 @@ const Navbar = () => {
                     Sign Up
                   </Button>
                 </div>
-              )}
+              )} */}
             </div>
 
             {/* Mobile menu button */}
@@ -65,7 +65,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Navigation */}
-          {isOpen && (
+          {/* {isOpen && (
             <div className="md:hidden py-4 border-t border-gray-100">
               <div className="flex flex-col space-y-4">
                 <a href="#features" className="text-gray-600 hover:text-primary transition-colors">Features</a>
@@ -94,16 +94,16 @@ const Navbar = () => {
                 )}
               </div>
             </div>
-          )}
+          )} */}
         </div>
       </nav>
 
-      <AuthModal
+      {/* <AuthModal
         isOpen={showAuthModal}
         onClose={() => setShowAuthModal(false)}
         mode={authMode}
         onModeChange={setAuthMode}
-      />
+      /> */}
     </>
   );
 };

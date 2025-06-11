@@ -34,7 +34,7 @@ const UserDashboard = () => {
       <div className="mt-4 p-4 bg-blue-50 rounded-lg">
         <h4 className="font-semibold text-primary mb-2">Beta Access Status</h4>
         <p className="text-sm text-gray-600">
-          Thank you for being part of our beta program! You'll receive updates about new features and early access to InvoiceFlow.
+          Thank you for being part of our beta program! You'll receive updates about new features and early access to Kmstack.
         </p>
       </div>
     </div>
