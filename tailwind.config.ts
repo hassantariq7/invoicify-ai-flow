@@ -30,11 +30,11 @@ export default {
 					foreground: 'hsl(var(--primary-foreground))'
 				},
 				secondary: {
-					DEFAULT: '#10B981',
+					DEFAULT: '#EDE9E6',
 					foreground: 'hsl(var(--secondary-foreground))'
 				},
 				accent: {
-					DEFAULT: '#8B5CF6',
+					DEFAULT: '#EDE9E6',
 					foreground: 'hsl(var(--accent-foreground))'
 				},
 				destructive: {
@@ -53,6 +53,11 @@ export default {
 					DEFAULT: 'hsl(var(--card))',
 					foreground: 'hsl(var(--card-foreground))'
 				},
+				// Custom theme colors
+				'theme-green': '#588C00',
+				'theme-dark': '#0B2001',
+				'theme-light': '#EDE9E6',
+				'theme-white': '#FFFFFF',
 				gray: {
 					50: '#F9FAFB',
 					100: '#F3F4F6',
