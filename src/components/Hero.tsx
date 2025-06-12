@@ -10,7 +10,7 @@ const Hero = () => {
             Coming Soon — Join Our Waitlist
           </span>
           <h1 className="text-4xl md:text-6xl font-bold mb-6">
-            <span className="bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">Revolutionize</span> Your Freelance Finances
+            <span className="bg-gradient-to-r from-primary to-theme-dark bg-clip-text text-transparent">Revolutionize</span> Your Freelance Finances
           </h1>
           <p className="text-lg md:text-xl text-gray-600 mb-10 max-w-3xl mx-auto">
             The all-in-one financial platform for freelancers and small businesses. Powerful invoicing, time tracking, and AI-driven insights in one seamless experience.

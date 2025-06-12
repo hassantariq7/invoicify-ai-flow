@@ -1,11 +1,10 @@
-
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-violet-500 bg-clip-text text-transparent">
+            <h3 className="text-xl font-bold mb-4 bg-gradient-to-r from-primary to-theme-dark bg-clip-text text-transparent">
               Kmstack
             </h3>
             <p className="text-gray-400 mb-4">
